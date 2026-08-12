@@ -1,0 +1,178 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTP probes of anonymco.com and anonymportal.com on 2026-08-12
+note: >-
+  Every /.well-known/* path on BOTH hosts answered HTTP 200 with an HTML body, and NONE of them
+  is a document. anonymco.com is a wildcard redirect: every path, valid or not, 302s to
+  https://www.mozilla.org/en-US/anonym/ and returns the same 28,202-byte marketing page.
+  anonymportal.com is an Angular single-page app whose server returns the same 650-byte
+  index.html for every path. Both are textbook soft-200s, so this file records an ABSENCE:
+  no WellKnown and no SecurityTxt pointer is emitted for this provider.
+hosts:
+- host: anonymco.com
+  behavior: wildcard-redirect
+  redirects_to: https://www.mozilla.org/en-US/anonym/
+  soft_200: true
+- host: anonymportal.com
+  behavior: spa-catch-all
+  soft_200: true
+paths:
+- host: anonymco.com
+  path: /.well-known/security.txt
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/openid-configuration
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/oauth-protected-resource
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/api-catalog
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/ai-plugin.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/agent-card.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymco.com
+  path: /.well-known/agent.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/security.txt
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/openid-configuration
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/oauth-protected-resource
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/api-catalog
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/ai-plugin.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/agent-card.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+- host: anonymportal.com
+  path: /.well-known/agent.json
+  status: 200
+  content_type: text/html
+  document: false
+  file: null
+contract_discovery:
+  ran: '2026-08-12'
+  result: no-public-machine-readable-contract
+  openapi: none
+  graphql: none
+  asyncapi: none
+  mcp: none
+  agent_card: none
+  summary: >-
+    No OpenAPI, Swagger, GraphQL, AsyncAPI, MCP or A2A agent card is published on any Anonym host.
+    Discovery did, however, identify the real backend API host from Anonym's OWN published assets:
+    the Transparency Portal's Content-Security-Policy connect-src allowlist names anonymapis.com,
+    and the portal's Angular environment block inside https://anonymportal.com/main-FVGV5EV2.js
+    declares grpc: { host: "https://anonymapis.com" }. So Anonym's customer API is a gRPC service
+    at anonymapis.com. That host resolves in DNS (52.230.151.22, Microsoft Azure) but TCP 443
+    does not complete a connection from the public internet, and no reflection, spec, or docs are
+    reachable anonymously. Nothing was fabricated from this: the host is recorded as evidence of a
+    gated API, not as a callable base URL.
+  probes:
+  - url: https://anonymco.com/openapi.json
+    status: 200
+    result: soft-200 HTML (wildcard redirect to mozilla.org/en-US/anonym/)
+  - url: https://anonymco.com/swagger.json
+    status: 200
+    result: soft-200 HTML
+  - url: https://anonymportal.com/openapi.json
+    status: 200
+    result: soft-200 HTML (SPA catch-all, 650 bytes)
+  - url: https://anonymportal.com/api-docs
+    status: 200
+    result: soft-200 HTML (SPA catch-all)
+  - url: https://anonymportal.com/docs
+    status: 200
+    result: soft-200 HTML (SPA catch-all)
+  - url: https://api.anonymco.com/
+    status: 0
+    result: NXDOMAIN — no such host
+  - url: https://anonymapis.com/openapi.json
+    status: 0
+    result: DNS resolves (52.230.151.22) but TCP 443 connection times out — firewalled
+  - url: https://anonymapis.com/
+    status: 0
+    result: connection timed out after 10s
+  - url: https://www.mozilla.org/llms.txt
+    status: 404
+    result: not published
+  api_hosts_observed:
+  - host: anonymapis.com
+    protocol: grpc
+    reachable_anonymously: false
+    evidence: >-
+      anonymportal.com Content-Security-Policy connect-src directive, and the environment config
+      in https://anonymportal.com/main-FVGV5EV2.js
+  - host: anonym.managedhsm.azure.net
+    protocol: azure-managed-hsm
+    reachable_anonymously: false
+    evidence: portal main-FVGV5EV2.js environment config (hsm.host)
+  third_party_dependencies_observed:
+  - identitytoolkit.googleapis.com (Firebase Authentication — portal sign-in)
+  - firestore.googleapis.com (Firebase Firestore)
+  - us-central1-anonym-firebase-production.cloudfunctions.net (Firebase Cloud Functions)
+  - '*.blob.core.windows.net (Azure Blob Storage — customer data exchange)'
+  - business-api.tiktok.com (platform partner integration referenced in the portal bundle)

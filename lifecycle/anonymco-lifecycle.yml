@@ -1,0 +1,44 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.mozilla.org/en-US/anonym/
+note: >-
+  No versioning policy, no deprecation policy, no Sunset/Deprecation header commitment (RFC 8594),
+  no SLA and no status page are published for Anonym. Every candidate was probed on 2026-08-12 and
+  each is recorded below with the status it actually returned. Because none of these exist, this
+  file deliberately carries NO StatusPage and NO Deprecation pointer in apis.yml — the artifact
+  documents an absence.
+versioning:
+  policy_published: false
+  scheme: unknown
+  note: >-
+    The only versioned surface observed is the gRPC host anonymapis.com named in the portal's own
+    published environment config; no version scheme is documented publicly.
+deprecation:
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+sla:
+  published: false
+status_page:
+  present: false
+  url: null
+  probes:
+  - url: https://status.anonymco.com/
+    status: 0
+    finding: NXDOMAIN
+  - url: https://anonymco.statuspage.io/
+    status: 200
+    finding: redirects to atlassian.com/software/statuspage — Atlassian's own marketing page, not an Anonym status page
+support:
+  published_channel: false
+  note: >-
+    No support page or help center. The privacy policy publishes privacy@anonymco.com and
+    dpo@anonymco.com, which are data-protection contacts rather than a technical support channel.
+company_lifecycle:
+  acquired_by: Mozilla
+  acquired: '2024'
+  acquisition_source: https://blog.mozilla.org/en/advertising/anonym-transparency-portal/
+  brand_status: >-
+    Operates as a Mozilla product line. The anonymco.com domain no longer serves its own site — it
+    wildcard-redirects every path to https://www.mozilla.org/en-US/anonym/.
+deprecated_operations: []

@@ -1,15 +1,22 @@
 aid: anonymco
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: enterprise
+  onboarding: contact-sales
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Enterprise
+  confidence: medium
+  source:
+  - https://www.mozilla.org/en-US/anonym/
+  - https://www.mozilla.org/en-US/anonym/how-it-works/
+  - https://anonymportal.com/app-data-manager
+  generated: '2026-08-12'
+  method: searched
+  note: >-
+    No pricing page, no plan tiers and no self-serve signup exist on any Anonym page; the only
+    call to action is a customer login into the Transparency Portal, and onboarding is described
+    as a partner/advertiser integration engagement.
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/anonymco.png
 name: Anonym
 description: 'Anonym is a privacy-preserving advertising technology platform now operated by Mozilla,
@@ -18,8 +25,12 @@ description: 'Anonym is a privacy-preserving advertising technology platform now
   measurement and campaign optimization across platforms including TikTok, Snapchat, Pinterest, and Reddit,
   replacing costly custom data-sharing systems with a single privacy-compliant setup. Anonym was surfaced
   as a portfolio company of Norwest Venture Partners; its public surface is a marketing site (anonymco.com,
-  redirecting to mozilla.org/anonym) and a customer login portal (anonymportal.com). No public API, developer
-  portal, OpenAPI, SDKs, or machine-readable API surface is published as of this profile.'
+  which wildcard-redirects every path to mozilla.org/en-US/anonym/) and a customer login portal
+  (anonymportal.com). No public API, developer portal, OpenAPI, GraphQL, AsyncAPI, MCP server, agent card,
+  SDK or CLI is published. Contract discovery did identify the real backend: Anonym''s own Transparency
+  Portal declares a gRPC API host at anonymapis.com in both its Content-Security-Policy connect-src and its
+  published Angular environment config, but that host refuses anonymous connections, and the API reference
+  Mozilla describes ("API Integrations", "Data Upload", a Knowledge Base) sits behind the customer login.'
 url: https://raw.githubusercontent.com/api-evangelist/anonymco/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -29,7 +40,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-08-12'
 tags:
 - Company
 - Advertising
@@ -38,6 +49,10 @@ tags:
 - Ad Measurement
 - Confidential Computing
 - Mozilla
+- Attribution
+- Differential Privacy
+- Trusted Execution Environment
+- Marketing
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -59,8 +74,42 @@ common:
   url: https://www.mozilla.org/en-US/anonym/privacy-policy/
 - type: TermsOfService
   url: https://www.mozilla.org/en-US/anonym/terms-and-conditions/
+- type: VulnerabilityDisclosure
+  url: security/anonymco-vulnerability-disclosure.yml
+- type: Security
+  url: security/anonymco-vulnerability-disclosure.yml
+- type: Conformance
+  url: conformance/anonymco-conformance.yml
+- type: Compliance
+  url: conformance/anonymco-conformance.yml
+- type: Lifecycle
+  url: lifecycle/anonymco-lifecycle.yml
+- type: Plans
+  url: plans/anonymco-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/anonymco-rate-limits.yml
+- type: LLMsTxt
+  url: llms/anonymco-llms.txt
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-12'
+  status: minimal
+  artifacts_added: 7
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+x-coverage:
+  state: gated
+  reason: customer-only-docs
+  detail: >-
+    Anonym's API reference lives inside the customer Transparency Portal at anonymportal.com — an
+    Angular SPA whose server returns the same 650-byte index.html for every path including /docs —
+    and the gRPC backend it fronts, anonymapis.com (named in the portal's own CSP and environment
+    config), resolves to an Azure address that refuses anonymous TCP connections on 443.
+  evidence:
+  - url: https://anonymportal.com/docs
+    status: 200
+  - url: https://anonymapis.com/openapi.json
+    status: 0
+  - url: https://anonymco.com/openapi.json
+    status: 200
+  - url: https://www.mozilla.org/en-US/anonym/pricing/
+    status: 404
+  checked: '2026-08-12'

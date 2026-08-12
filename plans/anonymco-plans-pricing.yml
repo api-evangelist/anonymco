@@ -1,0 +1,27 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.mozilla.org/en-US/anonym/
+plan_count: 0
+note: >-
+  Anonym publishes no pricing page, no plan tiers, no quotas and no rate card. The product is sold
+  through direct enterprise engagement with advertisers and platform partners (Reddit, Pinterest,
+  Snap, TikTok are named as partners in Mozilla's own announcements), and the only call to action
+  on the public site is a contact/login path into anonymportal.com. Every Anonym page under
+  mozilla.org/en-US/anonym/ was read on 2026-08-12 and none carries a price, a tier name, an
+  included quota, or an overage rate. Recorded as an honest zero, not as a missing check.
+model: enterprise-contact-only
+pricing_page: null
+plans: []
+evidence:
+- url: https://www.mozilla.org/en-US/anonym/
+  status: 200
+  finding: no pricing link in navigation or footer
+- url: https://www.mozilla.org/en-US/anonym/how-it-works/
+  status: 200
+  finding: no pricing or plan information
+- url: https://www.mozilla.org/en-US/anonym/solutions/
+  status: 200
+  finding: no pricing or plan information
+- url: https://anonymco.com/pricing
+  status: 200
+  finding: soft-200 — wildcard redirect returns the Anonym marketing page, no pricing document

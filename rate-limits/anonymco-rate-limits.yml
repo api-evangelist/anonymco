@@ -1,0 +1,22 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.mozilla.org/en-US/anonym/how-it-works/
+limit_count: 0
+note: >-
+  Anonym publishes no rate limits, no quota documentation, and no response-header contract. There
+  is no public developer portal or API reference to publish them in — the backend is a gated gRPC
+  service at anonymapis.com whose only documented entry point is the customer login at
+  anonymportal.com. No X-RateLimit-*, RateLimit-*, or Retry-After behavior could be observed
+  because no Anonym API endpoint accepts an anonymous request. Recorded as an honest zero.
+headers: []
+limits: []
+evidence:
+- url: https://www.mozilla.org/en-US/anonym/how-it-works/
+  status: 200
+  finding: describes "simple, secure tools or direct APIs" but publishes no limits or endpoints
+- url: https://anonymapis.com/
+  status: 0
+  finding: TCP 443 connection times out — no live response headers observable
+- url: https://anonymportal.com/docs
+  status: 200
+  finding: soft-200 SPA shell, no documentation served anonymously
